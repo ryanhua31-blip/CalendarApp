@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BusyDay Calendar</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="calendar-panel" aria-label="Monthly calendar">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">BusyDay</p>
+          <h1>Monthly Planner</h1>
+        </div>
+        <button class="today-button" id="todayButton" type="button">Today</button>
+      </header>
+
+      <div class="month-toolbar">
+        <button class="icon-button" id="prevMonth" type="button" aria-label="Previous month">‹</button>
+        <h2 id="monthLabel">Month Year</h2>
+        <button class="icon-button" id="nextMonth" type="button" aria-label="Next month">›</button>
+      </div>
+
+      <div class="weekday-row" aria-hidden="true">
+        <span>Sun</span>
+        <span>Mon</span>
+        <span>Tue</span>
+        <span>Wed</span>
+        <span>Thu</span>
+        <span>Fri</span>
+        <span>Sat</span>
+      </div>
+
+      <div class="calendar-grid" id="calendarGrid"></div>
+    </section>
+
+    <aside class="details-panel" aria-label="Event details">
+      <div class="selected-date-block">
+        <p class="eyebrow">Selected Date</p>
+        <h2 id="selectedDateLabel">Today</h2>
+      </div>
+
+      <form class="event-form" id="eventForm">
+        <label for="eventName">Event name</label>
+        <input id="eventName" name="eventName" type="text" placeholder="Team meeting, appointment, deadline" required>
+
+        <label for="eventDate">Date</label>
+        <input id="eventDate" name="eventDate" type="date" required>
+
+        <label for="eventInfo">Extra information <span>optional</span></label>
+        <textarea id="eventInfo" name="eventInfo" rows="4" placeholder="Location, links, reminders, prep notes"></textarea>
+
+        <button class="primary-button" type="submit">Add Event</button>
+      </form>
+
+      <section class="event-list-section" aria-label="Events for selected date">
+        <div class="section-heading">
+          <h3>Plans</h3>
+          <span id="eventCount">0</span>
+        </div>
+        <div class="event-list" id="eventList"></div>
+      </section>
+    </aside>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
