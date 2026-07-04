@@ -244,19 +244,23 @@ h3 {
 }
 
 .day-number {
+  position: absolute;
+  top: 8px;
+  left: 8px;
   display: inline-grid;
   width: 30px;
   height: 30px;
   place-items: center;
   border-radius: 999px;
-  font-weight: 900;
+  font-family: var(--font-sans);
+  font-weight: 600;
 }
 
 .day-summary {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
-  margin-top: 10px;
+  margin-top: 40px;
 }
 
 .event-pill {
@@ -430,9 +434,15 @@ textarea:focus {
   }
 
   .day-number {
+    top: 6px;
+    left: 6px;
     width: 26px;
     height: 26px;
     font-size: 0.85rem;
+  }
+
+  .day-summary {
+    margin-top: 34px;
   }
 
   .event-pill {
