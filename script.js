@@ -12,10 +12,13 @@ const nextMonthButton = document.getElementById("nextMonth");
 const todayButton = document.getElementById("todayButton");
 
 const storageKey = "busyday-calendar-events";
+const monthTransitionMs = 240;
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const today = new Date();
 let visibleDate = new Date(today.getFullYear(), today.getMonth(), 1);
 let selectedDate = toDateKey(today);
 let events = loadEvents();
+let isChangingMonth = false;
 
 function loadEvents() {
   const savedEvents = localStorage.getItem(storageKey);
@@ -178,6 +181,39 @@ function render() {
   renderEventList();
 }
 
+function changeMonth(offset) {
+  if (isChangingMonth) return;
+
+  const direction = offset > 0 ? "next" : "prev";
+  const updateVisibleMonth = () => {
+    visibleDate = new Date(visibleDate.getFullYear(), visibleDate.getMonth() + offset, 1);
+    renderCalendar();
+  };
+
+  if (prefersReducedMotion) {
+    updateVisibleMonth();
+    return;
+  }
+
+  isChangingMonth = true;
+  prevMonthButton.disabled = true;
+  nextMonthButton.disabled = true;
+  calendarGrid.classList.add(`is-exiting-${direction}`);
+
+  window.setTimeout(() => {
+    updateVisibleMonth();
+    calendarGrid.classList.remove(`is-exiting-${direction}`);
+    calendarGrid.classList.add(`is-entering-${direction}`);
+
+    window.setTimeout(() => {
+      calendarGrid.classList.remove(`is-entering-${direction}`);
+      prevMonthButton.disabled = false;
+      nextMonthButton.disabled = false;
+      isChangingMonth = false;
+    }, monthTransitionMs);
+  }, monthTransitionMs - 70);
+}
+
 eventForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
@@ -211,13 +247,11 @@ eventDateInput.addEventListener("change", () => {
 });
 
 prevMonthButton.addEventListener("click", () => {
-  visibleDate = new Date(visibleDate.getFullYear(), visibleDate.getMonth() - 1, 1);
-  renderCalendar();
+  changeMonth(-1);
 });
 
 nextMonthButton.addEventListener("click", () => {
-  visibleDate = new Date(visibleDate.getFullYear(), visibleDate.getMonth() + 1, 1);
-  renderCalendar();
+  changeMonth(1);
 });
 
 todayButton.addEventListener("click", () => {

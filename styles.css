@@ -151,6 +151,52 @@ h3 {
 
 .calendar-grid {
   gap: 8px;
+  transform: translateX(0);
+  opacity: 1;
+  transition: opacity 170ms ease, transform 220ms ease;
+  will-change: opacity, transform;
+}
+
+.calendar-grid.is-exiting-next {
+  opacity: 0;
+  transform: translateX(-18px);
+}
+
+.calendar-grid.is-exiting-prev {
+  opacity: 0;
+  transform: translateX(18px);
+}
+
+.calendar-grid.is-entering-next {
+  animation: monthInNext 240ms ease both;
+}
+
+.calendar-grid.is-entering-prev {
+  animation: monthInPrev 240ms ease both;
+}
+
+@keyframes monthInNext {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes monthInPrev {
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .day-cell {
@@ -383,5 +429,13 @@ textarea:focus {
     height: 7px;
     padding: 0;
     color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calendar-grid,
+  .day-cell {
+    animation: none;
+    transition: none;
   }
 }
