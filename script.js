@@ -26,6 +26,7 @@ const sharedBanner = document.getElementById("sharedBanner");
 const storageKey = "busyday-calendar-events";
 const shareParamName = "plans";
 const monthTransitionMs = 240;
+const shareDialogCloseMs = 180;
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const today = new Date();
 const sharedPlanData = readSharedPlanData();
@@ -35,6 +36,7 @@ let visibleDate = new Date(fromDateKey(firstVisibleDate).getFullYear(), fromDate
 let selectedDate = firstVisibleDate;
 let events = isSharedView ? sharedPlanData.events : loadEvents();
 let isChangingMonth = false;
+let shareCloseTimer = null;
 
 function loadEvents() {
   const savedEvents = localStorage.getItem(storageKey);
@@ -440,20 +442,40 @@ function generateShareLink() {
 
 function openShareDialog() {
   setDefaultShareFilters();
+  window.clearTimeout(shareCloseTimer);
+  shareDialog.classList.remove("is-closing");
 
   if (typeof shareDialog.showModal === "function") {
     shareDialog.showModal();
   } else {
     shareDialog.setAttribute("open", "");
   }
+
+  shareDialog.classList.add("is-opening");
 }
 
 function closeShareDialog() {
-  if (typeof shareDialog.close === "function") {
-    shareDialog.close();
-  } else {
-    shareDialog.removeAttribute("open");
+  shareDialog.classList.remove("is-opening");
+
+  if (prefersReducedMotion) {
+    if (typeof shareDialog.close === "function") {
+      shareDialog.close();
+    } else {
+      shareDialog.removeAttribute("open");
+    }
+    return;
   }
+
+  shareDialog.classList.add("is-closing");
+  shareCloseTimer = window.setTimeout(() => {
+    shareDialog.classList.remove("is-closing");
+
+    if (typeof shareDialog.close === "function") {
+      shareDialog.close();
+    } else {
+      shareDialog.removeAttribute("open");
+    }
+  }, shareDialogCloseMs);
 }
 
 async function copyShareLink() {
@@ -535,6 +557,11 @@ todayButton.addEventListener("click", () => {
 shareButton.addEventListener("click", openShareDialog);
 closeShareButton.addEventListener("click", closeShareDialog);
 copyShareLinkButton.addEventListener("click", copyShareLink);
+
+shareDialog.addEventListener("cancel", (event) => {
+  event.preventDefault();
+  closeShareDialog();
+});
 
 shareForm.addEventListener("submit", (event) => {
   event.preventDefault();

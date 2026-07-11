@@ -456,10 +456,72 @@ textarea:focus {
   color: var(--ink);
   box-shadow: var(--shadow);
   padding: 0;
+  opacity: 0;
+  transform: translateY(18px) scale(0.97);
 }
 
 .share-dialog::backdrop {
-  background: rgba(33, 37, 41, 0.45);
+  background: rgba(33, 37, 41, 0);
+}
+
+.share-dialog.is-opening {
+  animation: shareDialogIn 220ms ease both;
+}
+
+.share-dialog.is-opening::backdrop {
+  animation: shareBackdropIn 220ms ease both;
+}
+
+.share-dialog.is-closing {
+  animation: shareDialogOut 180ms ease both;
+}
+
+.share-dialog.is-closing::backdrop {
+  animation: shareBackdropOut 180ms ease both;
+}
+
+@keyframes shareDialogIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes shareDialogOut {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+}
+
+@keyframes shareBackdropIn {
+  from {
+    background: rgba(33, 37, 41, 0);
+  }
+
+  to {
+    background: rgba(33, 37, 41, 0.45);
+  }
+}
+
+@keyframes shareBackdropOut {
+  from {
+    background: rgba(33, 37, 41, 0.45);
+  }
+
+  to {
+    background: rgba(33, 37, 41, 0);
+  }
 }
 
 .share-form {
@@ -557,8 +619,15 @@ textarea:focus {
 
 @media (prefers-reduced-motion: reduce) {
   .calendar-grid,
-  .day-cell {
+  .day-cell,
+  .share-dialog,
+  .share-dialog::backdrop {
     animation: none;
     transition: none;
+  }
+
+  .share-dialog {
+    opacity: 1;
+    transform: none;
   }
 }
