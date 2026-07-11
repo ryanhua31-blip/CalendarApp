@@ -13,7 +13,10 @@
         <div>
           <h1>Monthly Planner</h1>
         </div>
-        <button class="today-button" id="todayButton" type="button">Today</button>
+        <div class="top-actions">
+          <button class="share-button" id="shareButton" type="button">Share</button>
+          <button class="today-button" id="todayButton" type="button">Today</button>
+        </div>
       </header>
 
       <div class="month-toolbar">
@@ -41,6 +44,11 @@
         <h2 id="selectedDateLabel">Today</h2>
       </div>
 
+      <div class="shared-banner" id="sharedBanner" hidden>
+        <p class="eyebrow">Shared View</p>
+        <p>This calendar only shows the plans included in the shared link.</p>
+      </div>
+
       <form class="event-form" id="eventForm">
         <label for="eventName">Event name</label>
         <input id="eventName" name="eventName" type="text" placeholder="Team meeting, appointment, deadline" required>
@@ -63,6 +71,43 @@
       </section>
     </aside>
   </main>
+
+  <dialog class="share-dialog" id="shareDialog">
+    <form class="share-form" id="shareForm">
+      <div class="share-header">
+        <div>
+          <p class="eyebrow">Share Plans</p>
+          <h2>Choose What They Can See</h2>
+        </div>
+        <button class="close-button" id="closeShare" type="button" aria-label="Close share options">×</button>
+      </div>
+
+      <div class="filter-grid">
+        <label for="shareFrom">From date</label>
+        <input id="shareFrom" type="date">
+
+        <label for="shareTo">To date</label>
+        <input id="shareTo" type="date">
+      </div>
+
+      <label for="shareSearch">Only include plans containing</label>
+      <input id="shareSearch" type="text" placeholder="Optional word or phrase">
+
+      <label class="checkbox-row" for="shareInfo">
+        <input id="shareInfo" type="checkbox" checked>
+        Include extra information
+      </label>
+
+      <div class="share-actions">
+        <button class="primary-button" id="generateShareLink" type="submit">Generate Link</button>
+        <button class="today-button" id="copyShareLink" type="button">Copy Link</button>
+      </div>
+
+      <label for="shareLink">Share URL</label>
+      <textarea id="shareLink" rows="4" readonly placeholder="Generate a link to share filtered plans."></textarea>
+      <p class="share-status" id="shareStatus">No link generated yet.</p>
+    </form>
+  </dialog>
 
   <script src="script.js"></script>
 </body>

@@ -79,6 +79,13 @@ button {
   gap: 12px;
 }
 
+.top-actions,
+.share-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .eyebrow {
   margin: 0 0 4px;
   color: var(--accent);
@@ -121,8 +128,10 @@ h3 {
 }
 
 .today-button,
+.share-button,
 .primary-button,
-.delete-button {
+.delete-button,
+.close-button {
   border: 0;
   border-radius: 6px;
   font-weight: 800;
@@ -133,6 +142,18 @@ h3 {
   padding: 0 18px;
   color: var(--accent-dark);
   background: var(--accent-soft);
+}
+
+.share-button {
+  min-height: 42px;
+  padding: 0 18px;
+  color: white;
+  background: var(--accent);
+}
+
+.share-button:hover,
+.share-button:focus-visible {
+  background: var(--accent-dark);
 }
 
 .icon-button {
@@ -311,6 +332,17 @@ textarea {
   padding: 12px;
 }
 
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-row input {
+  width: auto;
+  accent-color: var(--accent);
+}
+
 textarea {
   resize: vertical;
   min-height: 98px;
@@ -403,6 +435,68 @@ textarea:focus {
   line-height: 1.45;
 }
 
+.shared-banner {
+  padding: 14px;
+  border: 1px solid var(--accent-soft);
+  border-radius: 8px;
+  background: rgba(215, 239, 237, 0.55);
+}
+
+.shared-banner p:last-child {
+  margin-bottom: 0;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.share-dialog {
+  width: min(560px, calc(100% - 28px));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  padding: 0;
+}
+
+.share-dialog::backdrop {
+  background: rgba(33, 37, 41, 0.45);
+}
+
+.share-form {
+  display: grid;
+  gap: 14px;
+  padding: 22px;
+}
+
+.share-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.close-button {
+  width: 38px;
+  height: 38px;
+  color: var(--muted);
+  background: #eef0ec;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px 12px;
+}
+
+.share-status {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
 @media (max-width: 900px) {
   .app-shell {
     grid-template-columns: 1fr;
@@ -426,6 +520,14 @@ textarea:focus {
 
   .topbar {
     align-items: flex-start;
+  }
+
+  .top-actions,
+  .share-actions,
+  .filter-grid {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .day-cell {
